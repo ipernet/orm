@@ -1510,11 +1510,7 @@ class Parser
         $glimpse = $this->lexer->glimpse();
 
         switch (true) {
-            case ($this->isFunction()):
-                $expr = $this->FunctionDeclaration();
-                break;
-
-            case ($this->isMathOperator($peek)):
+            case $this->isMathOperator($peek):
                 $expr = $this->SimpleArithmeticExpression();
                 break;
 
@@ -1522,8 +1518,12 @@ class Parser
                 $expr = $this->SingleValuedPathExpression();
                 break;
 
-            case ($this->lexer->peek() && $this->isMathOperator($this->peekBeyondClosingParenthesis())):
+            case $this->lexer->peek() && $this->isMathOperator($this->peekBeyondClosingParenthesis()):
                 $expr = $this->ScalarExpression();
+                break;
+
+            case $this->isFunction():
+                $expr = $this->FunctionDeclaration();
                 break;
 
             default:
